@@ -93,11 +93,11 @@ namespace Umbraco.Elasticsearch.Core.Impl
             }
         }
 
-        protected virtual void IndexCore(IElasticClient client, TUmbracoDocument document,
-            string indexName = null)
+        protected virtual IIndexResponse IndexCore(IElasticClient client, TUmbracoDocument document, string indexName = null)
         {
-            client.Index(document, i => i.Index(indexName).Id(document.Id));
+           return client.Index(document, i => i.Index(indexName).Id(document.Id));
         }
+
 
         public void UpdateIndexTypeMapping(string indexName)
         {
