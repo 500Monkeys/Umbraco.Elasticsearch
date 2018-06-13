@@ -63,17 +63,8 @@ namespace Umbraco.Elasticsearch.Core.Impl
                     var doc = CreateCore(entity);
                     if (doc != null)
                     {
-                        var response = IndexCore(_client, doc, indexName);
-                        if (!response.IsValid)
-                        {
-                            LogHelper.Warn<IndexService<TUmbracoDocument, TUmbracoEntity, TSearchSettings>>($"Unable to create document for indexing from '{entity.Name}' with Id: {entity.Id} Reason: {response.ApiCall.ServerError.Error.Reason}");
-                            entity.SetIndexingStatus(IndexingStatusOption.Error,$"Unable to create document for indexing from '{entity.Name}' with Id: {entity.Id} Reason: {response.ApiCall.ServerError.Error.Reason}");
-                        }
-                        else
-                        {
-                            entity.SetIndexingStatus(IndexingStatusOption.Success,$"Indexed '{entity.Name}' into '{indexName}'");
-                        }
-
+                        IndexCore(_client, doc, indexName);
+                        entity.SetIndexingStatus(IndexingStatusOption.Success, $"Indexed '{entity.Name}' into '{indexName}'");
                     }
                     else
                     {
